@@ -25,6 +25,8 @@ const Login = () => {
       if (data.success) {
         setAToken(data.token)
         localStorage.setItem('aToken', data.token)
+        // set axios default header so subsequent requests include token immediately
+        axios.defaults.headers.common['atoken'] = data.token
       } else {
         toast.error(data.message)
       }
@@ -35,6 +37,8 @@ const Login = () => {
       if (data.success) {
         setDToken(data.token)
         localStorage.setItem('dToken', data.token)
+        // set axios default header for doctor token as well
+        axios.defaults.headers.common['dtoken'] = data.token
       } else {
         toast.error(data.message)
       }

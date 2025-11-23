@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 
@@ -10,6 +10,15 @@ const AdminContextProvider = (props) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://prescripto-rvzx.onrender.com'
 
     const [aToken, setAToken] = useState(localStorage.getItem('aToken') ? localStorage.getItem('aToken') : '')
+
+    // sync axios default header with current admin token so protected requests include token
+    useEffect(() => {
+        if (aToken) {
+            axios.defaults.headers.common['atoken'] = aToken
+        } else {
+            delete axios.defaults.headers.common['atoken']
+        }
+    }, [aToken])
 
     const [appointments, setAppointments] = useState([])
     const [doctors, setDoctors] = useState([])

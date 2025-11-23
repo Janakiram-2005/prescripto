@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
@@ -10,6 +10,15 @@ const DoctorContextProvider = (props) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://prescripto-rvzx.onrender.com'
 
     const [dToken, setDToken] = useState(localStorage.getItem('dToken') ? localStorage.getItem('dToken') : '')
+
+    // sync axios default header with current doctor token
+    useEffect(() => {
+        if (dToken) {
+            axios.defaults.headers.common['dtoken'] = dToken
+        } else {
+            delete axios.defaults.headers.common['dtoken']
+        }
+    }, [dToken])
     const [appointments, setAppointments] = useState([])
     const [dashData, setDashData] = useState(false)
     const [profileData, setProfileData] = useState(false)
