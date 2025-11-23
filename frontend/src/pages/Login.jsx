@@ -119,6 +119,7 @@ const Login = () => {
                   type="text" 
                   required 
                   id="name-input"
+                  autocomplete="name"
                 />
                 <label 
                   htmlFor="name-input"
@@ -143,6 +144,7 @@ const Login = () => {
                 type="email" 
                 required 
                 id="email-input"
+                autocomplete="email"
               />
               <label 
                 htmlFor="email-input"
@@ -166,6 +168,7 @@ const Login = () => {
                 type="password" 
                 required 
                 id="password-input"
+                autocomplete={state === 'Sign Up' ? 'new-password' : 'current-password'}
               />
               <label 
                 htmlFor="password-input"
@@ -224,7 +227,7 @@ const Login = () => {
         </form>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0) rotate(0deg); }
           50% { transform: translateY(-20px) rotate(5deg); }
