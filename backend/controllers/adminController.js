@@ -6,14 +6,21 @@ import validator from "validator";
 import { v2 as cloudinary } from "cloudinary";
 import userModel from "../models/userModel.js";
 
+// Admin credentials defaults (will be overridden by env vars if provided)
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "vemulaharshith1476@gmail.com";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "VHARSHITH121427$$";
+// JWT secret fallback to avoid runtime errors when not provided in env
+const JWT_SECRET = process.env.JWT_SECRET || "prescripto_jwt_secret";
+
 // API for admin login
 const loginAdmin = async (req, res) => {
     try {
 
         const { email, password } = req.body
 
-        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
-            const token = jwt.sign(email + password, process.env.JWT_SECRET)
+        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+            // sign a small JWT payload for admin
+            const token = jwt.sign({ role: 'admin', email }, JWT_SECRET, { expiresIn: '1d' })
             res.json({ success: true, token })
         } else {
             res.json({ success: false, message: "Invalid credentials" })
